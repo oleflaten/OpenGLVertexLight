@@ -92,7 +92,7 @@ void TriangleWindow::render()
     QMatrix4x4 mvMatrix;
 
     mvMatrix.translate(0, 0, -3);
-    mvMatrix.rotate(100.0f * m_frame / screen()->refreshRate(), 0, 1, 0);
+    mvMatrix.rotate(50.0f * m_frame / screen()->refreshRate(), 0, 1, 0);
     //sending matrix to shader
     m_program->setUniformValue(m_mvMatrixUniform, mvMatrix);
 
@@ -115,6 +115,8 @@ void TriangleWindow::render()
     m_program->setUniformValue(m_specularColorUniform, specularColor);
 
     //set up vertex info
+    //I forgot to enable normals, and spent 2 weeks looking through
+    //my shaders and the math. And this was the error....
     m_program->enableAttributeArray(m_posAttr);
     m_program->enableAttributeArray(m_colAttr);
     m_program->enableAttributeArray(m_normalAttr);

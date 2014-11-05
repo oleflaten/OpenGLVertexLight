@@ -12,11 +12,14 @@ uniform lowp vec3 ambientColor;
 uniform lowp vec3 diffuseColor;
 uniform lowp vec3 specularColor;
 
+//could come from the program
+const float shininess = 32.0;
 
 void main()
 {
-    //Light in eye-position
-    //vec4 lightPosEye = vec4(lightPosition.xyz, 1.0) *mvMatrix;
+    //Light in eye-position - should have its own mvMatrix, else
+    //the light will rotate with the triangle
+    //vec4 lightPosEye = mvMatrix * vec4(lightPosition.xyz, 1.0);
 
     // Get vertex position in eye coordinates
     // Must have it in same space as light
@@ -29,6 +32,18 @@ void main()
     // Transform the normal (n) to eye coordinates
     vec3 normalEye3 = normalize(nMatrix * normalAttr);
 
+    // Calculate the reflection vector (r)
+    vec3 reflectionVector = normalize(reflect(-vectorToLightSource, normalEye3));
+
+    // The camera in eye coordinates is located in the origin
+    // and pointing along the negative z-axis.
+    // Calculate viewVectorEye (v) in eye coordinates as
+    // (0.0, 0.0, 0.0) - vertexPositionEye3
+    vec3 viewVectorEye = -normalize(vertexPositionEye3);
+    float rdotv = max(dot(reflectionVector, viewVectorEye), 0.0);
+    float specularLightWeight = pow(rdotv, shininess);
+    vec3 specularReflection = specularColor * specularLightWeight;
+
     // Calculate n dot l for diffuse lighting
     float diffuseLightWeightning = max(dot(normalEye3, vectorToLightSource), 0.0);
 
@@ -37,7 +52,7 @@ void main()
     //col = colAttr * (vec4(ambientColor, 0.0));
     //col = (vec4(normalAttr, 0.0));
     //col = colAttr * (vec4(0.0,0.0,1.0, 0.0));
-    col = colAttr * (vec4(ambientColor, 0.0) + vec4(diffuseReflectance, 1.0));
+    col = colAttr * (vec4(ambientColor, 0.0) + vec4(diffuseReflectance, 1.0) + vec4(specularReflection, 1.0));
     //col = colAttr * vec4(diffuseReflectance, 1.0);
 
     gl_Position = pMatrix*mvMatrix * vec4(posAttr, 1.0);

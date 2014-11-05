@@ -36,7 +36,7 @@ private:
 
     int m_frame;
 
-    float lousyMinutes = 0.0; //Cheap timer to get some variants in rendering
+    float lousyTimer = 0.0; //Cheap timer to get some variants in rendering
 
     //VBOs:
     GLuint vboIds[2];
@@ -44,9 +44,9 @@ private:
     //Geometry:
     GLfloat vertices[27] =
     {
-         0.0f, 0.707f, 0.0f,    1.0f, 0.0f, 0.0f,   0.0f, 0.0f, -1.0f,   //vertex 1
-        -0.5f, -0.5f, 0.0f,     0.0f, 1.0f, 0.0f,   0.0f, 0.0f, -1.0f,   //vertex 2
-         0.5f, -0.5f, 0.0f,     0.0f, 0.0f, 1.0f,   0.0f, 0.0f, -1.0f    //vertex 3
+         0.0f, 0.707f, 0.0f,    1.0f, 0.0f, 0.0f,   0.0f, 0.0f, 1.0f,   //vertex 1
+        -0.5f, -0.5f, 0.0f,     0.0f, 1.0f, 0.0f,   0.0f, 0.0f, 1.0f,   //vertex 2
+         0.5f, -0.5f, 0.0f,     0.0f, 0.0f, 1.0f,   0.0f, 0.0f, 1.0f    //vertex 3
     };
 
     GLushort indices[3] =

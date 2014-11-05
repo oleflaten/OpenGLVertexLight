@@ -22,7 +22,7 @@ TriangleWindow::~TriangleWindow()
 
 void TriangleWindow::initialize()
 {
-    qDebug("init");
+    //qDebug("init");
 
     //Read and compile shaders:
     m_program = new QOpenGLShaderProgram(this);
@@ -75,34 +75,39 @@ void TriangleWindow::render()
     //Do this each rendered frame to support resizing
     glViewport(0, 0, width() * retinaScale, height() * retinaScale);
 
+    //Clear screen and buffers
     glClearColor(0.4, 0.4, 0.4, 0.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
+    //Binds the shader
     m_program->bind();
 
-    //making pMatrix:
+    //making projection Matrix:
     QMatrix4x4 pMatrix;
-    pMatrix.perspective(60.0f, 4.0f/3.0f, 0.1f, 100.0f);
+    //                  angle, aspect,    near, far
+    pMatrix.perspective(40.0f, 4.0f/3.0f, 0.1f, 100.0f);
     m_program->setUniformValue(m_pMatrixUniform, pMatrix);
 
-    //making mvMatrix
+    //making model view Matrix
     QMatrix4x4 mvMatrix;
+
     mvMatrix.translate(0, 0, -3);
     //mvMatrix.rotate(100.0f * m_frame / screen()->refreshRate(), 0, 1, 0);
-    //hooking matrix to shader
+    //sending matrix to shader
     m_program->setUniformValue(m_mvMatrixUniform, mvMatrix);
 
     //matrix for normals - inverted mv-matrix
-    QMatrix3x3 nMatrix(mvMatrix.normalMatrix());
+    //bool *test;
+    QMatrix3x3 nMatrix = mvMatrix.normalMatrix();
     //hooking matrix to shader
     m_program->setUniformValue(m_nMatrixUniform, nMatrix);
 
     //set up light
     //uses lousy timer to vary ambient light
-    lousyMinutes+= 0.02;
+    lousyTimer+= 0.02;
 
     QVector3D tempAmbient = ambientColor;
-    tempAmbient.operator *=(qFabs( qSin(lousyMinutes)));
+    tempAmbient.operator *=(qFabs(qSin(lousyTimer)));
     m_program->setUniformValue(m_lightPosUniform, lightPos);
     m_program->setUniformValue(m_ambientColorUniform, tempAmbient);
     //m_program->setUniformValue(m_ambientColorUniform, ambientColor);

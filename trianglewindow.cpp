@@ -76,7 +76,7 @@ void TriangleWindow::render()
     glViewport(0, 0, width() * retinaScale, height() * retinaScale);
 
     //Clear screen and buffers
-    glClearColor(0.4, 0.4, 0.4, 0.0);
+    glClearColor(0.1, 0.1, 0.1, 0.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
     //Binds the shader
@@ -92,7 +92,7 @@ void TriangleWindow::render()
     QMatrix4x4 mvMatrix;
 
     mvMatrix.translate(0, 0, -3);
-    //mvMatrix.rotate(100.0f * m_frame / screen()->refreshRate(), 0, 1, 0);
+    mvMatrix.rotate(100.0f * m_frame / screen()->refreshRate(), 0, 1, 0);
     //sending matrix to shader
     m_program->setUniformValue(m_mvMatrixUniform, mvMatrix);
 
@@ -105,18 +105,19 @@ void TriangleWindow::render()
     //set up light
     //uses lousy timer to vary ambient light
     lousyTimer+= 0.02;
-
     QVector3D tempAmbient = ambientColor;
     tempAmbient.operator *=(qFabs(qSin(lousyTimer)));
+
     m_program->setUniformValue(m_lightPosUniform, lightPos);
-    m_program->setUniformValue(m_ambientColorUniform, tempAmbient);
-    //m_program->setUniformValue(m_ambientColorUniform, ambientColor);
+    //m_program->setUniformValue(m_ambientColorUniform, tempAmbient);
+    m_program->setUniformValue(m_ambientColorUniform, ambientColor);
     m_program->setUniformValue(m_diffuseColorUniform, diffuseColor);
     m_program->setUniformValue(m_specularColorUniform, specularColor);
 
     //set up vertex info
     m_program->enableAttributeArray(m_posAttr);
     m_program->enableAttributeArray(m_colAttr);
+    m_program->enableAttributeArray(m_normalAttr);
 
     quintptr offset = 0;
     //vertices:

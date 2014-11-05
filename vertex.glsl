@@ -35,6 +35,8 @@ void main()
     vec3 diffuseReflectance = diffuseColor * diffuseLightWeightning;
 
     //col = colAttr * (vec4(ambientColor, 0.0));
+    //col = (vec4(normalAttr, 0.0));
+    //col = colAttr * (vec4(0.0,0.0,1.0, 0.0));
     col = colAttr * (vec4(ambientColor, 0.0) + vec4(diffuseReflectance, 1.0));
     //col = colAttr * vec4(diffuseReflectance, 1.0);
 

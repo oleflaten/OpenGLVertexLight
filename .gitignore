@@ -1,0 +1,45 @@
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+#Qt-stuff
+*.user
+*.pro.user
+*.pro.user.*
+Makefile
+*-build-*
+Makefile
+*.Debug
+*.Release
+*.pdb
+*.exe
+*.manifest
+*.exe_manifest.rc
+*.exe_manifest.res
+*.ilk
+*.obj
+moc_*.cpp
+qrc_*.cpp
+ui_*.h
+*.autosave
+
+#Mac-stuff
+.DS_Store

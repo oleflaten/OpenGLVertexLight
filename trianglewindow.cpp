@@ -76,7 +76,7 @@ void TriangleWindow::render()
     glViewport(0, 0, width() * retinaScale, height() * retinaScale);
 
     //Clear screen and buffers
-    glClearColor(0.1, 0.1, 0.1, 0.0);
+    glClearColor(0.5, 0.5, 0.5, 0.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
     //Binds the shader
@@ -97,7 +97,6 @@ void TriangleWindow::render()
     m_program->setUniformValue(m_mvMatrixUniform, mvMatrix);
 
     //matrix for normals - inverted mv-matrix
-    //bool *test;
     QMatrix3x3 nMatrix = mvMatrix.normalMatrix();
     //hooking matrix to shader
     m_program->setUniformValue(m_nMatrixUniform, nMatrix);
@@ -135,9 +134,9 @@ void TriangleWindow::render()
     //qDebug() << "offset" << offset;
     glVertexAttribPointer(m_normalAttr, 3, GL_FLOAT, GL_FALSE, 9*sizeof(GLfloat), (const void *)offset);
 
-    //glDrawArrays(GL_TRIANGLES, 0, 3);
+    glDrawArrays(GL_TRIANGLES, 0, 3);
     //Just 3 vertices:
-    glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_SHORT, 0);
+    //glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_SHORT, 0);
 
     m_program->release();
 

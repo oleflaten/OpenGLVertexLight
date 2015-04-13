@@ -6,7 +6,6 @@
 #include <QtGui/QOpenGLPaintDevice>
 #include <QtGui/QPainter>
 
-//! [1]
 OpenGLWindow::OpenGLWindow(QWindow *parent)
     : QWindow(parent)
     , m_update_pending(false)
@@ -16,13 +15,12 @@ OpenGLWindow::OpenGLWindow(QWindow *parent)
 {
     setSurfaceType(QWindow::OpenGLSurface);
 }
-//! [1]
 
 OpenGLWindow::~OpenGLWindow()
 {
     delete m_device;
 }
-//! [2]
+
 void OpenGLWindow::render(QPainter *painter)
 {
     Q_UNUSED(painter);
@@ -44,9 +42,7 @@ void OpenGLWindow::render()
     QPainter painter(m_device);
     render(&painter);
 }
-//! [2]
 
-//! [3]
 void OpenGLWindow::renderLater()
 {
     if (!m_update_pending) {
@@ -74,9 +70,7 @@ void OpenGLWindow::exposeEvent(QExposeEvent *event)
     if (isExposed())
         renderNow();
 }
-//! [3]
 
-//! [4]
 void OpenGLWindow::renderNow()
 {
     if (!isExposed())
@@ -106,9 +100,7 @@ void OpenGLWindow::renderNow()
     if (m_animating)
         renderLater();
 }
-//! [4]
 
-//! [5]
 void OpenGLWindow::setAnimating(bool animating)
 {
     m_animating = animating;
@@ -116,5 +108,3 @@ void OpenGLWindow::setAnimating(bool animating)
     if (animating)
         renderLater();
 }
-//! [5]
-
